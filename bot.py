@@ -35,7 +35,12 @@ def handle_message(message):
 
     # Ответ пользователю
     if results:
-        bot.send_message(message.chat.id, "\n".join(results))
+        MAX_MESSAGE_LENGTH = 4000
+    response = "\n".join(results)
+
+    # Отправляем частями, если сообщение слишком длинное
+    for i in range(0, len(response), MAX_MESSAGE_LENGTH):
+        bot.send_message(message.chat.id, response[i:i+MAX_MESSAGE_LENGTH])
     else:
         bot.send_message(message.chat.id, "Ничего не найдено.")
 
